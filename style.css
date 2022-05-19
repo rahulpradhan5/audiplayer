@@ -11,6 +11,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(to right, #687a8d, #67798a );
 }
 
 .main{
@@ -21,6 +22,7 @@ body{
     align-items: center;
     justify-content: center;
     background: linear-gradient(to right, #5D6D7E, #566573 );
+    
 }
 
 .main button{
@@ -230,8 +232,8 @@ input[type="range"]::-webkit-slider-thumb{
     position: absolute;
     top: 10px;
     right: 10px;
-    width: 30px;
-    height: 20px;
+    width: 40px;
+    height: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
