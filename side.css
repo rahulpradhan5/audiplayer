@@ -8,6 +8,9 @@
     font-family: 'Poppins',sans-serif;
 }
 
+.parrent{
+    position: relative;
+}
 .slide{
     height: 100%;
     width: 180px;
