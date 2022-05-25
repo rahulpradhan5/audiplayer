@@ -347,3 +347,132 @@ input[type="range"]::-webkit-slider-thumb{
 .custom-choose span{
     margin-left: 10px;
 }
+
+.song_list{
+    background: #566573;
+    box-shadow: 2px 2px 5px 5px rgba(0,0,0,0.15);
+    width: 450px;
+    padding: 0px 0px;
+}
+
+ .list-nav{
+    background: #566573;
+    width: 100%;
+    margin-top: 0px;
+    outline: none;
+    border-radius: 5px;
+    padding: 10px 10px;
+    position: fixed;
+    box-shadow: 2px 2px 5px 5px rgba(0,0,0,0.15);
+}
+.nav-item{
+    display: flex;
+    padding: 0px 0px;
+    align-items: center;
+    justify-content: center;
+}
+
+.play-all-button button{
+    background: #FF8A65;
+    outline: none;
+    border-radius: 15px;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    
+    margin-right: 150px;
+    padding: 5px 10px;
+}
+
+.search-bar{
+    display: flex;
+    
+}
+.search-bar input{
+    position: relative;
+    background: rgba(255, 255, 255, 0.212);
+    outline: none;
+    border: none;
+    border-radius: 15px;
+    height: 30px;
+}
+
+.search-bar .serach-icon{
+    position: absolute;
+    background: #FF8A65;
+    margin-left: 130px;
+    border-radius: 15px;
+    width: 40px;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+.serach-icon{
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    height: 30px;
+    cursor: pointer;
+    
+}
+.search-bar .serach-icon i{
+    color: #fff;
+    margin-top: -20px;
+    cursor: pointer;
+}
+.show-list{
+    padding: 50px 15px;
+    height: 500px;
+    overflow:scroll;
+}
+.show-list::-webkit-scrollbar {
+    display: none;
+  }
+.song-item{
+    background: #ff896525;
+    height: 50px;
+    box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, 0.062);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 25px 0px;
+    margin-top: 10px;
+    gap: 30px 80px;
+}
+
+.song-item img{
+    height: 50px;
+    width: 15%;
+    border-radius: 15px;
+    
+}
+
+.song-item p{
+    color: #fff;
+}
+
+.song-action ul{
+    display: flex;
+    gap: 30px 10px;
+}
+
+.action-button{
+    background: rgba(255,255,255,0.2);
+    align-items: center;
+    justify-content: center;
+    padding: 2px 7px;
+    border-radius: 5px;
+}
+.action-button i{
+    color: #fff;
+}
+
+.song-item:hover{
+    transition: ease-out;
+    box-shadow: 2px 2px 5px 5px rgba(0,0,0,0.15);
+    width: 430px;
+    margin-right: 20px;
+}

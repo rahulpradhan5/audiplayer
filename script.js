@@ -25,10 +25,8 @@ let playin_song = false;
 
 let track = document.createElement('audio');
 
-
-// ALL song List
-
 let all_song = data;
+
 
 // all function
 
@@ -108,7 +106,7 @@ function previous_song(){
         load_track(index_no);
         playsong();
     }else{
-        index_no = all_song.length;
+        index_no = all_song.length - 1;
          load_track(index_no);
          playsong();
     }
@@ -159,10 +157,49 @@ function range_slider(){
     if(track.ended){
         play.innerHTML = '<i class="fa fa-play"></i>';
         if(autoplay == 1){
-            index_no += 1;
+            
+            if(index_no == data.length-1){
+                index_no = 0
+            }else if(index_no >= 0){
+                index_no += 1;
+            }
             load_track(index_no);
             playsong();
 
         }
     }
+}
+
+// play all song
+function play_all(){
+    index_no = 0;
+     all_song = [
+    {
+        name: "rahul",
+            path: "audio/Sajnaa.mp3",
+            img: "image/saajna.jpg",
+            singer: "rahul"
+    },
+    {
+        name: "prahul",
+            path: "audio/Sajnaa.mp3",
+            img: "image/saajna.jpg",
+            singer: "rahul"
+    }
+    ];
+    clearInterval(timer)
+    reset_slider()
+    track.src = all_song[index_no].path;
+    title.innerHTML = all_song[index_no].name;
+    track_image.src = all_song[index_no].img;
+    artist.innerHTML = all_song[index_no].singer;
+    track.load();  
+    
+    total.innerHTML = all_song.length;
+    present.innerHTML = index_no + 1;
+    timer = setInterval(range_slider , 1000);  
+    load_track(index_no);
+    playsong();
+    console.log(track);
+    
 }

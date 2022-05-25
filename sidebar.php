@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <label >
+    <label class="sidebar">
     <input class="input_tag" type="checkbox">
     <div class="toggle">
         <span class="top_line common"></span>
@@ -24,7 +24,7 @@
             <ul>
                 <li><a href=""><i class="fa fa-tv"></i> dashboard</a></li>
                 <li id="show-login"><a><i class="fa fa-upload"></i> Upload</a></li>
-                <li><a href=""><i class="fa fa-tv"></i> dashboard</a></li>
+                <li id="all-songs-list"><a><i class="fa fa-tv"></i> Song List</a></li>
                 <li><a href=""><i class="fa fa-tv"></i> dashboard</a></li>
             </ul>
         </div>

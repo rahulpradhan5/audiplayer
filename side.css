@@ -11,15 +11,16 @@
 .parrent{
     position: relative;
 }
+
 .slide{
-    height: 100%;
+    height: 100vh;
     width: 180px;
-    position: absolute;
+    position: sticky;
     background:  #5D6D7E;
     transition: 0.5s ease;
     transform: translateX(-180px);
     margin-left: -1227px;
-    margin-top: -313px;
+    margin-top: 0px;
 
 }
 
