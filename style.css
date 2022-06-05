@@ -343,6 +343,7 @@ input[type="range"]::-webkit-slider-thumb{
     justify-content:center;
     margin-right:35px;
     margin-top: 5px;
+    width: 285px;
 }
 .custom-choose span{
     margin-left: 10px;
@@ -476,3 +477,288 @@ input[type="range"]::-webkit-slider-thumb{
     width: 430px;
     margin-right: 20px;
 }
+
+.playlis_popup{
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(rgba(137, 151, 186, 1),rgba(0, 0, 0, 0.77));
+    border-radius: 5px;
+    padding: 0px 0px 290px 0px;
+    width: 900px;
+    height: 500px;
+}
+
+.search_and_play{
+    background: rgba(204, 206, 209, 0.1);
+    height: 200px;
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.playlist-list{
+    height: 150px;
+    background: rgba(174, 179, 191, 0.17);
+    display: flex;
+    column-gap: 20px;
+    padding: 15px 20px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.playlist-list img{
+    border-radius: 5px;
+    height: 120px;
+    width: 125px;
+    cursor: pointer;
+}
+
+.add-playlist{
+    border-style: dotted;
+    border-radius: 5px;
+    height: 120px;
+    width: 125px;
+    border-width: 2px;
+    border-color: rgba(0, 0, 0, 0.31);
+    font-size: 100px;
+    text-align: center;
+    color: rgba(255, 90, 1, 0.445);
+    cursor: pointer;
+}
+.playlist-img-div{
+    display: flex;
+    column-gap: 20px;
+    width: 710px;
+    height: 125px;
+    overflow: scroll;
+    border-radius: 5px;
+    scrollbar-color: #FF8A65;
+}
+
+.playlist-img-div::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cd{
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+  }
+ .cd img{
+     border-radius: 50%;
+}
+  .icon{
+      justify-content: center;
+      align-items: center;
+      margin-top: -70px;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+  }
+  .icon i{
+      color: #FF8A65;
+  }
+
+  .play_button_search{
+      display: flex;
+      padding: 15px 20px;
+      column-gap:20px;
+  }
+
+  .play{
+      background: #FF8A65;
+      border-radius: 5px;
+      outline: #FF8A65;
+      border: #FF8A65;
+      justify-content: center;
+      text-align: center;
+      padding: 5px 10px 5px 10px;
+      color: #fff;
+  }
+
+  .search-input{
+    height: 25px;
+    background-color: transparent;
+    border: 1px solid #FF8A65;
+    border-radius: 5px;
+    text-align: left;
+    outline: none;
+    color: #fff;
+    padding: 10px 10px 10px 25px;
+    margin-left: -25px;
+    display: none;
+  }
+
+  .search-input::placeholder {
+    color: #fff;
+    opacity: 0.5; /* Firefox */
+  }
+  .search-active{
+    display: none;
+    
+  }
+
+  .search-input-i{
+    color: #FF8A65;
+    display: none;
+  }
+
+  .list-songs{
+      height: 42vh;
+      width: 100%;
+      padding: 20px 20px;
+      overflow: scroll;
+      padding-top: 0;
+      padding-bottom: 0;
+  }
+
+  .list-songs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .songs{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      column-gap: 540px;
+      height: 10vh;
+      border: 1px solid #03010041;
+      border-radius: 5px;
+      padding: 0;
+      margin-top: 7px;
+  }
+
+  .songs:hover{
+      background: rgba(204, 204, 204, 0.089);
+  }
+
+  .image-name{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      column-gap: 10px;
+  }
+
+  .image-name img{
+      width: 70px;
+      height: 10vh;
+      padding-top: 1px;
+      margin-top: 3px;
+      border-radius: 5px;
+      margin-right: 5px;  
+    }
+
+  .song-name-singer{
+      position: relative;
+      color: #fff;
+      font-weight: 100px;
+      font-size: large;
+      row-gap: 10px;
+      text-align: left;
+      line-height: 15px;
+      overflow: hidden;
+      height: 35px;
+      width: 65px;
+  }
+
+  .song-name-singer span{
+      color: #FF8A65;
+      font-size: x-small;
+  }
+
+  .song-name-singer p{
+      overflow: hidden;
+      height: 15px;
+  }
+
+  .action-btn{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      column-gap: 30px;
+     margin-right: 20px;
+  }
+
+  .play-btn{
+      border: 1px solid #ff89656b;
+      border-radius: 50%;
+      box-shadow: 0px 0px 20px #2d2d2ebd;
+      cursor: pointer;
+      color: #FF8A65;
+      height: 30px;
+      width: 30px;
+      text-align: center;
+      padding: 5px 10px 5px 7px;
+  }
+  .btn-play{
+    padding: 6px 10px;
+  }
+
+  .search-span-dactive{
+    display:none;
+  }
+
+  .search-input-i-active{
+    display:inline;
+  }
+  .search-input-active{
+    display:inline;
+  }
+
+  .all-songs{
+      padding-left: 20px;
+      padding-top: 5px;
+      color: #fff;
+  }
+
+  .playimg:hover{
+    animation: slideUp ease .5s forwards 1.2s;
+  }
+
+  .select select{
+      margin-top: 3px;
+  }
+
+  .playlist span{
+      height: 20px;
+      width: 60px;
+      color: #fff;
+
+  }
+  .select2-selection__choice li{
+    background: transparent !important;
+  }
+  .select2-selection__choice__display{ 
+      color: #fff !important; 
+      background-color: #FF8A65 !important;
+        border: 1px solid #FF8A65 !important;;
+    }
+    .select2-selection__choice__remove{
+        background-color: #FF8A65 !important;
+        color: #fff !important; 
+        border: 1px solid #FF8A65 !important;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice{
+        background-color: transparent !important;
+        border: 1px solid #FF8A65 !important;
+    }
+    .select2-container--default .select2-selection--multiple{
+        border: 1px solid #FF8A65 !important;
+        border-radius: 5px !important;
+    }
+
+    .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable{
+        background-color: #FF8A65 !important;
+    }
+  
+    .select label{
+        font-size: 14px;
+    color: #FF8A65;
+    }
+
+    input:-internal-autofill-selected {
+        appearance: none !important;
+    background-image: transparent !important;
+        background-color: transparent !important;
+        color: #fff !important;
+    }

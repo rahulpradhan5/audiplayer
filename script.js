@@ -16,7 +16,13 @@ let artist = document.querySelector('#artist');
 let timer;
 let autoplay = 0;
 
-let index_no = 0;
+let index_no ;
+// check last index of last time play song
+if(index_no_l !== 0){
+    index_no = index_no_l;
+}else{
+    index_no = 0
+}
 let playin_song = false;
 
 
@@ -26,7 +32,10 @@ let playin_song = false;
 let track = document.createElement('audio');
 
 let all_song = data;
-
+// check last time of last time play song
+if(currentTime_l !== 0){
+    track.currentTime = currentTime_l;
+}
 
 // all function
 
@@ -147,7 +156,18 @@ function range_slider(){
     if(!isNaN(track.duration)){
         position = track.currentTime * (100 / track.duration);
         slider.value = position;
-
+        $.ajax({
+            url: "timeupdate.php",
+            method: "POST",
+            data: {
+                up: 1,
+                indexNo: index_no,
+                lastTime: track.currentTime
+            },
+            success: function(data) {
+            console.log(data);
+            }
+        });
     }
 
    
@@ -203,3 +223,27 @@ function play_all(){
     console.log(track);
     
 }
+
+let i = 0;
+let placeholder = "";
+const txt = document.getElementById("search-input").placeholder;
+const speed = 120;
+
+function type(){
+    placeholder += txt.charAt(i);
+    document.getElementById("search-input").setAttribute("placeholder",placeholder);
+        i++;
+    setTimeout(type,speed);
+}
+
+//search animation
+var search = document.querySelector("#search");
+        function seach(){
+            i = 0;
+            placeholder = "";
+            search.classList.add("search-active");
+            document.querySelector(".search-span").classList.add("search-span-dactive");
+            document.querySelector(".search-input-i").classList.add("search-input-i-active");
+            document.querySelector(".search-input").classList.add("search-input-active");
+            type();
+        }

@@ -1,3 +1,6 @@
+<?php
+include("connection.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,8 +8,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
     <script src="jquery.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <title>Document</title>
 </head>
 
@@ -22,6 +28,20 @@
             <div class="form-element">
                 <label>Artist</label>
                 <input type="text" class="artist" id="artist" placeholder="Enter artist name" require>
+            </div>
+            <div class="select ">
+                <label>Playlist</label>
+                <select class="playlist " name="playlist" id="sele" style="width: 320px;" multiple>
+                    <option value="hi">Hii</option>
+                    <option value="hii">Hii</option>
+                    <option value="hiii">Hii</option>
+                </select>
+                <script>
+                    $("#sele").select2({
+                        maximumSelectionLength: 6,
+                    });
+                   
+                </script>
             </div>
             <div class="form-element">
                 <label>Song</label>
@@ -45,210 +65,105 @@
         </div>
     </div>
     <!-- ----------------show songs list------------------------- -->
-    <div class="popup song_list">
-        <div class="list-nav">
-            <div class="close-btn">&times;</div>
-            <div class="nav-item">
-                <div class="play-all-button">
-                    <button onclick="play_all()"><i class="fa fa-play"></i> Play all</button>
+    <div class="popup playlis_popup song_list">
+        <div class="close-btn">&times;</div>
+        <div class="search_and_play">
+            <!-- play list ---------------------------- -->
+            <div class="playlist">
+                <div class="playlist-list">
+                    <div class="plalist-image add-playlist">
+                        +
+                    </div>
+                    <div class="playlist-img-div">
+                        <div class="plalist-image">
+                            <img class="playimg" src="image/saajna.jpg">
+                        </div>
+                        <div class="plalist-image cd">
+                            <img src="image/unkownplaylist.svg">
+                            <div class="icon">
+                                <i class="fa fa-bolt"></i>
+                                <p>Playlist</p>
+                            </div>
+                        </div>
+                        <div class="plalist-image">
+                            <img src="image/saajna.jpg">
+                        </div>
+                        <div class="plalist-image cd">
+                            <img src="image/unkownplaylist.svg">
+                            <div class="icon">
+                                <i class="fa fa-heart"></i>
+                                <p>Playlist</p>
+                            </div>
+                        </div>
+                        <div class="plalist-image">
+                            <img src="image/saajna.jpg">
+                        </div>
+                        <div class="plalist-image">
+                            <img src="image/saajna.jpg">
+                        </div>
+                        <div class="plalist-image">
+                            <img src="image/saajna.jpg">
+                        </div>
+                        <div class="plalist-image">
+                            <img src="image/saajna.jpg">
+                        </div>
+                    </div>
                 </div>
-                <div class="search-bar">
-                    <div class="serach-icon"><i class="fa fa-search"></i></div>
-                    <input class="search">
+            </div>
+            <!-- /// search btn------------------------- -->
+            <div class="play_button_search">
+                <div class="play_button">
+                    <button class="play"><i class="fa fa-play"></i> PLAY</button>
+                </div>
+                <div class="search_div">
+                    <button class="play search" id="search" onclick="seach()"><i class="fa fa-search"></i><span class="search-span"> Search</span></button>
+                    <i class="fa fa-search search-input-i"></i>
+                    <input class="search-input" id="search-input" type="text" oninput="searchData()" placeholder="Search here....">
                 </div>
             </div>
         </div>
-        <div class="show-list">
-            <div class="song-item">
-                <img src="image/saajna.jpg">
-                <p>Song name</p>
-                <div class="song-action">
-                    <ul>
-                        <li>
-                            <div class="action-button"><i class="fa fa-play"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-pencil"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-trash"></i></div>
-                        </li>
-                    </ul>
+        <!-- // all songs in play list --------------------------- -->
+        <p class="all-songs">All Songs</p>
+        <div class="list-songs">
+            <!-- // song div---------------------------- -->
+            <?php
+            $all_songs = $sql->prepare("SELECT * FROM `music`");
+            $all_songs->execute();
+            $all_songs_result = $all_songs->get_result();
+            if($all_songs_result->num_rows>0){
+                while($all_songs_data = $all_songs_result->fetch_assoc()){
+            ?>
+            <div class="songs">
+                <!-- // image and autor div -->
+                <div class="image-name">
+                <div class="list-song-image">
+                    <img src="<?php echo $all_songs_data['thumbnail']; ?>" alt="">
+                </div>
+                <div class="song-name-singer">
+                    <p><?php echo $all_songs_data['song_title']; ?></p>
+                    <span>
+                        <?php echo $all_songs_data['artist_name']; ?>
+                    </span>
                 </div>
             </div>
-            <div class="song-item">
-                <img src="image/saajna.jpg">
-                <p>Song name</p>
-                <div class="song-action">
-                    <ul>
-                        <li>
-                            <div class="action-button"><i class="fa fa-play"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-pencil"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-trash"></i></div>
-                        </li>
-                    </ul>
+                <!-- // action btns------------ -->
+                <div class="action-btn">
+                    <div class="play-btn btn-play" id="edit-song"><i class="fa fa-play"></i></div>
+                    <div class="play-btn"><i class="fa fa-pencil"></i></div>
+                    <div class="play-btn delete-btn"><i class="fa fa-trash-o"></i></div>
                 </div>
             </div>
-            <div class="song-item">
-                <img src="image/saajna.jpg">
-                <p>Song name</p>
-                <div class="song-action">
-                    <ul>
-                        <li>
-                            <div class="action-button"><i class="fa fa-play"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-pencil"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-trash"></i></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="song-item">
-                <img src="image/saajna.jpg">
-                <p>Song name</p>
-                <div class="song-action">
-                    <ul>
-                        <li>
-                            <div class="action-button"><i class="fa fa-play"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-pencil"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-trash"></i></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="song-item">
-                <img src="image/saajna.jpg">
-                <p>Song name</p>
-                <div class="song-action">
-                    <ul>
-                        <li>
-                            <div class="action-button"><i class="fa fa-play"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-pencil"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-trash"></i></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="song-item">
-                <img src="image/saajna.jpg">
-                <p>Song name</p>
-                <div class="song-action">
-                    <ul>
-                        <li>
-                            <div class="action-button"><i class="fa fa-play"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-pencil"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-trash"></i></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="song-item">
-                <img src="image/saajna.jpg">
-                <p>Song name</p>
-                <div class="song-action">
-                    <ul>
-                        <li>
-                            <div class="action-button"><i class="fa fa-play"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-pencil"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-trash"></i></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="song-item">
-                <img src="image/saajna.jpg">
-                <p>Song name</p>
-                <div class="song-action">
-                    <ul>
-                        <li>
-                            <div class="action-button"><i class="fa fa-play"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-pencil"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-trash"></i></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="song-item">
-                <img src="image/saajna.jpg">
-                <p>Song name</p>
-                <div class="song-action">
-                    <ul>
-                        <li>
-                            <div class="action-button"><i class="fa fa-play"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-pencil"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-trash"></i></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="song-item">
-                <img src="image/saajna.jpg">
-                <p>Song name</p>
-                <div class="song-action">
-                    <ul>
-                        <li>
-                            <div class="action-button"><i class="fa fa-play"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-pencil"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-trash"></i></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="song-item">
-                <img src="image/saajna.jpg">
-                <p>Song name</p>
-                <div class="song-action">
-                    <ul>
-                        <li>
-                            <div class="action-button"><i class="fa fa-play"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-pencil"></i></div>
-                        </li>
-                        <li>
-                            <div class="action-button"><i class="fa fa-trash"></i></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
+            <?php
+            }
+        }
+            ?>
         </div>
-
+    </div>
+    <div class="popup edit-popup">
+        <div class="close-btn">&times;</div>
+        <div class="form edit-form">
+           
+        </div>
     </div>
     <script>
         // custom select file
@@ -302,7 +217,19 @@
         });
         document.querySelector(".song_list .close-btn").addEventListener("click", function() {
             document.querySelector(".song_list").classList.remove("active");
+            document.querySelector("#search").classList.remove("search-active");
+            document.querySelector(".search-span").classList.remove("search-span-dactive");
+            document.querySelector(".search-input-i").classList.remove("search-input-i-active");
+            document.querySelector(".search-input").classList.remove("search-input-active");
+        });
+        
+        document.querySelector("#edit-song").addEventListener("click", function() {
+            document.querySelector(".edit-popup").classList.add("active");
+            $(".edit-form").load("song_edit.php");
 
+        });
+        document.querySelector(".edit-popup .close-btn").addEventListener("click", function() {
+            document.querySelector(".edit-popup").classList.remove("active");
         });
         //send data to all .php
 
@@ -391,11 +318,21 @@
                 var artist = $(".artist").val();
                 var song = $(".song").html();
                 var songIn = $("#song").val();
+                var song_extension = songIn.split(".").pop().toLowerCase();
                 var thumbanail = $(".thumb").html();
+                var image_extension = thumbanail.split(".").pop().toLowerCase();
                 var thumbIn = $("#thumbnail").val();
                 if (title == "" || artist == "" || songIn == "" || thumbIn == "") {
                     alert("All Fields are require");
-                } else {
+                }else if(image_extension !== 'gif' && image_extension !== 'png' && image_extension !== 'jpg' && image_extension !== 'svg' && image_extension !== 'jpeg'){
+                    alert("Invalid Image Formate");
+                    $("#submit").prop('disabled', true);
+                } else if(song_extension !== 'mp3') {
+                    alert("Invalid Audio Formate");
+                    $("#submit").prop('disabled', true);
+                } 
+                else {
+                    $("#submit").prop('disabled', false);
                     $.ajax({
                         url: "all.php",
                         type: "post",
@@ -407,6 +344,7 @@
                             thumb: thumbanail
                         },
                         success: function(data) {
+                            console.log(data);
                             if (data = "success") {
                                 $(".close-btn").click();
                                 alert("success");
@@ -417,11 +355,28 @@
                     });
                 }
             });
-        }); 
+        });
 
         // play all song 
-        
-       
+        function searchData() {
+            var inputs = $("#search-input").val();
+            $.ajax({
+                url: "search.php",
+                method: "POST",
+                data: {
+                    search: 1,
+                    inputs: inputs
+                },
+                success: function(data) {
+
+                    $(".list-songs").html(data);
+                    $(".all-songs").html("Search result for '" + inputs + "'");
+                }
+            });
+        }
+
+        // play all asong data------------------
+
     </script>
 </body>
 

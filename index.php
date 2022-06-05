@@ -73,7 +73,7 @@ $allsong_result = $allsong->get_result();
 
             <?php
 
-            while ($df = $allsong_result->fetch_array()) {
+            while ($df = $allsong_result->fetch_array()){
 
             ?>
 
@@ -89,6 +89,17 @@ $allsong_result = $allsong->get_result();
             }
             ?>
         ];
+        // last time play song data
+        <?php
+        $id = '1';
+        $indexandtrimer = $sql->prepare("SELECT * FROM `last_time` WHERE `id` = ?");
+        $indexandtrimer->bind_param('s',$id);
+        $indexandtrimer->execute();
+        $indexandtrimer_result = $indexandtrimer->get_result();
+        $indexandtrimer_data = $indexandtrimer_result->fetch_assoc();
+        ?>
+        var index_no_l = <?php echo $indexandtrimer_data['last_index'];?>;
+        var currentTime_l = <?php echo $indexandtrimer_data['last_time'];?>;
     </script>
 
     <script src="script.js"></script>

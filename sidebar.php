@@ -24,7 +24,7 @@
             <ul>
                 <li><a href=""><i class="fa fa-tv"></i> dashboard</a></li>
                 <li id="show-login"><a><i class="fa fa-upload"></i> Upload</a></li>
-                <li id="all-songs-list"><a><i class="fa fa-tv"></i> Song List</a></li>
+                <li id="all-songs-list"><a><i class="fa fa-music"></i> Song List</a></li>
                 <li><a href=""><i class="fa fa-tv"></i> dashboard</a></li>
             </ul>
         </div>
