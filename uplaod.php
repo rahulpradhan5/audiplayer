@@ -40,7 +40,6 @@ include("connection.php");
                     $("#sele").select2({
                         maximumSelectionLength: 6,
                     });
-                   
                 </script>
             </div>
             <div class="form-element">
@@ -75,45 +74,47 @@ include("connection.php");
                         +
                     </div>
                     <div class="playlist-img-div">
-                        <div class="plalist-image">
-                            <img class="playimg" src="image/saajna.jpg">
-                        </div>
-                        <div class="plalist-image cd">
+                    <div class="plalist-image cd" id="0">
                             <img src="image/unkownplaylist.svg">
                             <div class="icon">
                                 <i class="fa fa-bolt"></i>
-                                <p>Playlist</p>
+                                <p>All Songs</p>
                             </div>
                         </div>
-                        <div class="plalist-image">
-                            <img src="image/saajna.jpg">
+                        <?php
+                        $load_playlist = $sql->prepare("SELECT * FROM `playlist`");
+                        $load_playlist->execute();
+                        $load_playlist_result = $load_playlist->get_result();
+                        if($load_playlist_result -> num_rows >0){
+                            while($load_playlist_data = $load_playlist_result->fetch_assoc()){
+                                $pimage = $load_playlist_data['p_image'];
+                                if(!empty($pimage)){
+                        ?>
+                        <div class="plalist-image" id="<?php echo $load_playlist_data['pid'];?>" value="<?php echo $load_playlist_data['pname'];?>">
+                            <img class="playimg" src="<?php echo $pimage;?>">
                         </div>
-                        <div class="plalist-image cd">
+                        <?php
+                        }else{
+                        ?>
+                        <div class="plalist-image cd" id="<?php echo $load_playlist_data['pid'];?>" value="<?php echo $load_playlist_data['pname'];?>">
                             <img src="image/unkownplaylist.svg">
                             <div class="icon">
-                                <i class="fa fa-heart"></i>
-                                <p>Playlist</p>
+                                <i class="fa fa-bolt"></i>
+                                <p><?php echo $load_playlist_data['pname'];?></p>
                             </div>
                         </div>
-                        <div class="plalist-image">
-                            <img src="image/saajna.jpg">
-                        </div>
-                        <div class="plalist-image">
-                            <img src="image/saajna.jpg">
-                        </div>
-                        <div class="plalist-image">
-                            <img src="image/saajna.jpg">
-                        </div>
-                        <div class="plalist-image">
-                            <img src="image/saajna.jpg">
-                        </div>
+                        <?php
+                        }
+                        }
+                    }
+                        ?>
                     </div>
                 </div>
             </div>
             <!-- /// search btn------------------------- -->
             <div class="play_button_search">
                 <div class="play_button">
-                    <button class="play"><i class="fa fa-play"></i> PLAY</button>
+                    <button class="play " onclick="playAll()"><i class="fa fa-play"></i> PLAY</button>
                 </div>
                 <div class="search_div">
                     <button class="play search" id="search" onclick="seach()"><i class="fa fa-search"></i><span class="search-span"> Search</span></button>
@@ -130,39 +131,41 @@ include("connection.php");
             $all_songs = $sql->prepare("SELECT * FROM `music`");
             $all_songs->execute();
             $all_songs_result = $all_songs->get_result();
-            if($all_songs_result->num_rows>0){
-                while($all_songs_data = $all_songs_result->fetch_assoc()){
+            if ($all_songs_result->num_rows > 0) {
+                while ($all_songs_data = $all_songs_result->fetch_assoc()) {
             ?>
-            <div class="songs">
-                <!-- // image and autor div -->
-                <div class="image-name">
-                <div class="list-song-image">
-                    <img src="<?php echo $all_songs_data['thumbnail']; ?>" alt="">
-                </div>
-                <div class="song-name-singer">
-                    <p><?php echo $all_songs_data['song_title']; ?></p>
-                    <span>
-                        <?php echo $all_songs_data['artist_name']; ?>
-                    </span>
-                </div>
-            </div>
-                <!-- // action btns------------ -->
-                <div class="action-btn">
-                    <div class="play-btn btn-play" id="edit-song"><i class="fa fa-play"></i></div>
-                    <div class="play-btn"><i class="fa fa-pencil"></i></div>
-                    <div class="play-btn delete-btn"><i class="fa fa-trash-o"></i></div>
-                </div>
-            </div>
+                    <div class="songs">
+                        <!-- // image and autor div -->
+                        <div class="image-name">
+                            <div class="list-song-image">
+                                <img src="<?php echo $all_songs_data['thumbnail']; ?>" alt="">
+                            </div>
+                            <div class="song-name-singer">
+                                <p><?php echo $all_songs_data['song_title']; ?></p>
+                                <span>
+                                    <?php echo $all_songs_data['artist_name']; ?>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- // action btns------------ -->
+                        <div class="action-btn">
+                            <div class="play-btn btn-play" id="edit-song"><i class="fa fa-play"></i></div>
+                            <div class="play-btn"><i class="fa fa-pencil"></i></div>
+                            <div class="play-btn delete-btn" data-id="<?php echo $all_songs_data['mid']; ?>" onclick="songDelete(this.getAttribute('data-id'))"><i class="fa fa-trash-o song-d"></i></div>
+
+                        </div>
+                    </div>
             <?php
+                }
             }
-        }
             ?>
         </div>
     </div>
+    <!-- // edit part of song----------------- -->
     <div class="popup edit-popup">
         <div class="close-btn">&times;</div>
         <div class="form edit-form">
-           
+
         </div>
     </div>
     <script>
@@ -222,7 +225,7 @@ include("connection.php");
             document.querySelector(".search-input-i").classList.remove("search-input-i-active");
             document.querySelector(".search-input").classList.remove("search-input-active");
         });
-        
+
         document.querySelector("#edit-song").addEventListener("click", function() {
             document.querySelector(".edit-popup").classList.add("active");
             $(".edit-form").load("song_edit.php");
@@ -324,14 +327,13 @@ include("connection.php");
                 var thumbIn = $("#thumbnail").val();
                 if (title == "" || artist == "" || songIn == "" || thumbIn == "") {
                     alert("All Fields are require");
-                }else if(image_extension !== 'gif' && image_extension !== 'png' && image_extension !== 'jpg' && image_extension !== 'svg' && image_extension !== 'jpeg'){
+                } else if (image_extension !== 'gif' && image_extension !== 'png' && image_extension !== 'jpg' && image_extension !== 'svg' && image_extension !== 'jpeg') {
                     alert("Invalid Image Formate");
                     $("#submit").prop('disabled', true);
-                } else if(song_extension !== 'mp3') {
+                } else if (song_extension !== 'mp3') {
                     alert("Invalid Audio Formate");
                     $("#submit").prop('disabled', true);
-                } 
-                else {
+                } else {
                     $("#submit").prop('disabled', false);
                     $.ajax({
                         url: "all.php",
@@ -347,6 +349,7 @@ include("connection.php");
                             console.log(data);
                             if (data = "success") {
                                 $(".close-btn").click();
+                                $(".list-songs").load("search.php");
                                 alert("success");
                             } else {
                                 alert("failed");
@@ -368,15 +371,95 @@ include("connection.php");
                     inputs: inputs
                 },
                 success: function(data) {
-
+                    console.log(data);
                     $(".list-songs").html(data);
                     $(".all-songs").html("Search result for '" + inputs + "'");
                 }
             });
         }
 
-        // play all asong data------------------
+        // Delete a song data------------------
 
+        function songDelete(data_id) {
+            $.ajax({
+                url: "all.php",
+                data: {
+                    delete: 1,
+                    sid: data_id
+                },
+                type: "post",
+                success: function(data) {
+                    console.log(data);
+                    if (data == "failed") {
+                        alert("Failed");
+                    } else {
+                        alert("Succesfully Deleted Song Permanently");
+                        $(".list-songs").load("search.php");
+                    }
+                }
+            })
+        }
+
+        // paly all song
+        let playAlls = document.querySelector(".play");
+        function playAll() {
+            playAlls.innerHTML = '<i class="fa fa-pause"></i> PLAY';
+            var datas = [
+                <?php
+                $fetch_data = $sql->prepare("SELECT * FROM `music`");
+                $fetch_data->execute();
+                $fetch_data_result = $fetch_data->get_result();
+                if ($fetch_data_result->num_rows > 0) {
+                    while($fetch_data_result_data = $fetch_data_result->fetch_assoc()){
+                ?> {
+
+                        name: "<?php echo $fetch_data_result_data['song_title']; ?>",
+                        path: "<?php echo $fetch_data_result_data['song']; ?>",
+                        img: "<?php echo $fetch_data_result_data['thumbnail']; ?>",
+                        singer: "<?php echo $fetch_data_result_data['artist_name']; ?>"
+
+                    },
+                <?php
+                }
+            }
+                ?>
+            ];
+            index_no_l = 0;
+
+            function load_track(index_no = index_no_l,all_song = datas) {
+                track.currentTime = 0;
+                clearInterval(timer)
+                reset_slider()
+                track.src = all_song[index_no].path;
+                title.innerHTML = all_song[index_no].name;
+                track_image.src = all_song[index_no].img;
+                artist.innerHTML = all_song[index_no].singer;
+                track.load();
+
+                total.innerHTML = all_song.length;
+                present.innerHTML = index_no + 1;
+                timer = setInterval(range_slider, 1000);
+                playsong()
+            }
+            load_track();
+            range_slider(index_no = index_no_l);
+        }
+        /// load playlist song...............-------
+        $(".plalist-image").click( function(){
+            var fid = $(this).attr('id');
+            var pname = $(this).attr('value');
+            alert(pname)
+            $.ajax({
+                url:"search.php",
+                data:{playlist:1,pid:fid},
+                type:"post",
+                success:function(data){
+                    console.log(data);
+                    $(".list-songs").html(data);
+                    $(".all-songs").html("Playlist name '" + pname + "'");
+                }
+            })
+        })
     </script>
 </body>
 

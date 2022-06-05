@@ -15,6 +15,7 @@ let artist = document.querySelector('#artist');
 
 let timer;
 let autoplay = 0;
+let id = false;
 
 let index_no ;
 // check last index of last time play song
@@ -31,7 +32,7 @@ let playin_song = false;
 
 let track = document.createElement('audio');
 
-let all_song = data;
+var all_song = data;
 // check last time of last time play song
 if(currentTime_l !== 0){
     track.currentTime = currentTime_l;
@@ -41,6 +42,8 @@ if(currentTime_l !== 0){
 
 //function load the track
 function load_track(index_no){
+    console.log(index_no);
+    console.log(all_song);
     clearInterval(timer)
     reset_slider()
     track.src = all_song[index_no].path;
