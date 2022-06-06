@@ -62,8 +62,9 @@ function loadData(sno){
 }
 loadData(sno);
 let t = 0;
+let lno;
 //function load the track
-function load_track(t,sno){
+function load_track(t,sno,lno){
     
     console.log(done[t].path);
 
@@ -76,12 +77,12 @@ function load_track(t,sno){
     artist.innerHTML = done[t].singer;
     track.load();  
     imageExtract(track.src);
-
+    total.innerHTML = lno;
     present.innerHTML = sno;
     timer = setInterval(range_slider , 1000);
 }
 
-load_track(t,sno);
+load_track(t,sno,lno);
 /* -----------------------------------------------------------------
 // image extracter from audio----------------------
 --------------------------------------------------------------------*/
@@ -218,6 +219,7 @@ function range_slider(){
                 psong = true;
             }else if(sno >= 0){
                 sno += 1;
+                psong = true;
             }
             loadData(sno);
             playsong()

@@ -32,8 +32,9 @@ if (isset($_POST['data'])) {
             img: "<?php echo $load_data_data['thumbnail']; ?>",
             singer: "<?php echo $load_data_data['artist_name']; ?>"   
          }]  ;
+         lno = <?php echo $lastno;?>;
          sno = <?php echo $mid;?>;
-         load_track(t,sno);
+         load_track(t,sno,lno);
          if(psong == true){
             playsong();
          }else{
