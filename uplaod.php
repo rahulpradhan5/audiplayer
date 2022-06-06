@@ -401,49 +401,7 @@ include("connection.php");
         }
 
         // paly all song
-        let playAlls = document.querySelector(".play");
-        function playAll() {
-            playAlls.innerHTML = '<i class="fa fa-pause"></i> PLAY';
-            var datas = [
-                <?php
-                $fetch_data = $sql->prepare("SELECT * FROM `music`");
-                $fetch_data->execute();
-                $fetch_data_result = $fetch_data->get_result();
-                if ($fetch_data_result->num_rows > 0) {
-                    while($fetch_data_result_data = $fetch_data_result->fetch_assoc()){
-                ?> {
-
-                        name: "<?php echo $fetch_data_result_data['song_title']; ?>",
-                        path: "<?php echo $fetch_data_result_data['song']; ?>",
-                        img: "<?php echo $fetch_data_result_data['thumbnail']; ?>",
-                        singer: "<?php echo $fetch_data_result_data['artist_name']; ?>"
-
-                    },
-                <?php
-                }
-            }
-                ?>
-            ];
-            index_no_l = 0;
-
-            function load_track(index_no = index_no_l,all_song = datas) {
-                track.currentTime = 0;
-                clearInterval(timer)
-                reset_slider()
-                track.src = all_song[index_no].path;
-                title.innerHTML = all_song[index_no].name;
-                track_image.src = all_song[index_no].img;
-                artist.innerHTML = all_song[index_no].singer;
-                track.load();
-
-                total.innerHTML = all_song.length;
-                present.innerHTML = index_no + 1;
-                timer = setInterval(range_slider, 1000);
-                playsong()
-            }
-            load_track();
-            range_slider(index_no = index_no_l);
-        }
+        
         /// load playlist song...............-------
         $(".plalist-image").click( function(){
             var fid = $(this).attr('id');

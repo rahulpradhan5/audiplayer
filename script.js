@@ -11,18 +11,21 @@ let auto_play = document.querySelector('#auto');
 let present = document.querySelector('#present');
 let total = document.querySelector('#total');
 let artist = document.querySelector('#artist');
-
+let lastNO = document.querySelector('#last').value;
+var jsmediatags = window.jsmediatags;
 
 let timer;
 let autoplay = 0;
 let id = false;
-
+let done;
 let index_no ;
+let sno;
+let psong = false;
 // check last index of last time play song
-if(index_no_l !== 0){
-    index_no = index_no_l;
+if(sno !== 0){
+    sno = index_no_l;
 }else{
-    index_no = 0
+    sno = 1;
 }
 let playin_song = false;
 
@@ -32,7 +35,7 @@ let playin_song = false;
 
 let track = document.createElement('audio');
 
-var all_song = data;
+
 // check last time of last time play song
 if(currentTime_l !== 0){
     track.currentTime = currentTime_l;
@@ -40,25 +43,62 @@ if(currentTime_l !== 0){
 
 // all function
 
+// load data dynamicly
+function loadData(sno){
+    $.ajax({
+        url:"data.php",
+        data:{data:1,index:sno,lastsno:lastNO},
+        type:"post",
+        success:function(data){
+            console.log(data);
+            if(data == "failed"){
+            sno = sno+1;
+            loadData(sno);
+        }else{
+             $(".dt").html(data)
+        }
+        }
+    })
+}
+loadData(sno);
+let t = 0;
 //function load the track
-function load_track(index_no){
-    console.log(index_no);
-    console.log(all_song);
+function load_track(t,sno){
+    
+    console.log(done[t].path);
+
+    
     clearInterval(timer)
     reset_slider()
-    track.src = all_song[index_no].path;
-    title.innerHTML = all_song[index_no].name;
-    track_image.src = all_song[index_no].img;
-    artist.innerHTML = all_song[index_no].singer;
+    track.src = done[t].path;
+    title.innerHTML = done[t].name;
+    track_image.src = done[t].img;
+    artist.innerHTML = done[t].singer;
     track.load();  
-    
-    total.innerHTML = all_song.length;
-    present.innerHTML = index_no + 1;
+    imageExtract(track.src);
+
+    present.innerHTML = sno;
     timer = setInterval(range_slider , 1000);
 }
 
-load_track(index_no);
+load_track(t,sno);
+/* -----------------------------------------------------------------
+// image extracter from audio----------------------
+--------------------------------------------------------------------*/
+function imageExtract(){
+    jsmediatags.read((track.src), {
+    onSuccess: function(tag) {
+     const pdata = tag.tags.picture.data;
+     const format = tag.tags.picture.formate;
+     let base64String = "";
+     for(let p = 0; p<pdata.length;p++ ){
+         base64String += String.fromCharCode(pdata[p]);
 
+     }
+     track_image.src = `data:${format};base64,${window.btoa(base64String)}`;
+    }
+})
+}
 //mute song
 
 function mute_sound(){
@@ -100,28 +140,20 @@ function pausesong(){
 
 //next song
 function next_song(){
-    if(index_no < all_song.length - 1 ) {
-        index_no += 1;
-        load_track(index_no);
+    playin_song = false;
+        sno += 1;
+        loadData(sno);
+        psong = true;
         playsong();
-    }else{
-        index_no = 0;
-         load_track(index_no);
-         playsong();
-    }
+        
 }
 
 //previous song
 function previous_song(){
-    if(index_no > 0 ) {
-        index_no -= 1;
-        load_track(index_no);
-        playsong();
-    }else{
-        index_no = all_song.length - 1;
-         load_track(index_no);
-         playsong();
-    }
+    playin_song = false;
+        sno -= 1;
+        psong = true;
+        loadData(sno);
 }
 
 //change volume
@@ -154,7 +186,7 @@ function autoplay_switch(){
 
 function range_slider(){
     let position = 0;
-
+    
     //update position
     if(!isNaN(track.duration)){
         position = track.currentTime * (100 / track.duration);
@@ -164,7 +196,7 @@ function range_slider(){
             method: "POST",
             data: {
                 up: 1,
-                indexNo: index_no,
+                indexNo: sno,
                 lastTime: track.currentTime
             },
             success: function(data) {
@@ -181,14 +213,14 @@ function range_slider(){
         play.innerHTML = '<i class="fa fa-play"></i>';
         if(autoplay == 1){
             
-            if(index_no == data.length-1){
-                index_no = 0
-            }else if(index_no >= 0){
-                index_no += 1;
+            if(sno == lastNO){
+                sno = 1
+                psong = true;
+            }else if(sno >= 0){
+                sno += 1;
             }
-            load_track(index_no);
-            playsong();
-
+            loadData(sno);
+            playsong()
         }
     }
 }

@@ -5,8 +5,12 @@ if(isset($_POST['sub'])){
       $artist = $_POST['artist'];
       $song = $_POST['song'];
       $thumbnail = $_POST['thumb'];
-     $save = $sql->prepare("INSERT INTO `music`(`song_title`, `artist_name`, `thumbnail`, `song`) VALUES (?,?,?,?)");
-     $save->bind_param('ssss',$name,$artist,$thumbnail,$song);
+      $select_sno = $sql->prepare("SELECT * FROM `music`");
+      $select_sno->execute();
+      $select_sno_result = $select_sno->get_result();
+      $sno = $select_sno_result->num_rows + 1;
+     $save = $sql->prepare("INSERT INTO `music`(`sno`,`song_title`, `artist_name`, `thumbnail`, `song`) VALUES (?,?,?,?,?)");
+     $save->bind_param('sssss',$sno,$name,$artist,$thumbnail,$song);
      $save->execute();
      if($save->affected_rows>0){
          echo "success";

@@ -15,6 +15,7 @@ $allsong_result = $allsong->get_result();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
     <title>Document</title>
 </head>
 
@@ -52,7 +53,7 @@ $allsong_result = $allsong->get_result();
             <div class="middle">
                 <button onclick="previous_song()" id="pre"><i class="fa fa-step-backward" aria-hidden="true"></i></button>
                 <button onclick="justplay()" id="play"><i class="fa fa-play" aria-hidden="true"></i></button>
-                <button onclick="next_song()" id="next"><i class="fa fa-step-forward" aria-hidden="true"></i></button>
+                <button onclick="next_song() " id="next"><i class="fa fa-step-forward" aria-hidden="true"></i></button>
             </div>
 
 
@@ -63,6 +64,16 @@ $allsong_result = $allsong->get_result();
             <button id="auto" onclick="autoplay_switch()">Auto Play<i class="fa fa-circle-o-notch" aria-hidden="true"></i></button>
         </div>
     </div>
+    <div class="dt">
+        
+    </div>
+    <?php
+    $last_sno = $sql->prepare("SELECT * FROM `music` ORDER BY `mid` DESC");
+    $last_sno->execute();
+    $last_sno_result = $last_sno->get_result();
+    $last_sno_data = $last_sno_result->fetch_assoc();
+    ?>
+    <input type="hidden"  id="last" value="<?php echo $last_sno_data['sno'];?>">
     <!-- --------------- sidebar add------------------------ -->
     <?php
     include("sidebar.php");
