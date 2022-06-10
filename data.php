@@ -1,9 +1,11 @@
 <?php
 include("connection.php");
-$last_no = $sql->prepare("SELECT * FROM `music`");
+$last_no = $sql->prepare("SELECT * FROM `music` ORDER BY `sno` DESC");
 $last_no->execute();
 $last_no_result = $last_no->get_result();
-$lastno = $last_no_result->num_rows;
+$total = $last_no_result->num_rows;
+$lastdata = $last_no_result->fetch_assoc();
+$lastno = $lastdata['sno'];
 if (isset($_POST['data'])) {
     if($_POST['index'] == 1){
          $mid = 1;
@@ -32,7 +34,7 @@ if (isset($_POST['data'])) {
             img: "<?php echo $load_data_data['thumbnail']; ?>",
             singer: "<?php echo $load_data_data['artist_name']; ?>"   
          }]  ;
-         lno = <?php echo $lastno;?>;
+         lno = <?php echo $total;?>;
          sno = <?php echo $mid;?>;
          load_track(t,sno,lno);
          if(psong == true){
@@ -44,7 +46,17 @@ if (isset($_POST['data'])) {
             
 <?php
     }else{
-        echo "failed";
+         ?>
+         <script>
+              if(pres == 1){
+               sno = <?php echo $mid - 1 ;?>;
+              }else{
+              sno = <?php echo $mid + 1 ;?>;
+          }
+              console.log(sno);
+              loadData(sno);
+         </script>
+         <?php
     }
 }
 ?>

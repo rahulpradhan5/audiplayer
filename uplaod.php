@@ -74,7 +74,7 @@ include("connection.php");
                         +
                     </div>
                     <div class="playlist-img-div">
-                    <div class="plalist-image cd" id="0">
+                        <div class="plalist-image cd" id="0">
                             <img src="image/unkownplaylist.svg">
                             <div class="icon">
                                 <i class="fa fa-bolt"></i>
@@ -85,28 +85,28 @@ include("connection.php");
                         $load_playlist = $sql->prepare("SELECT * FROM `playlist`");
                         $load_playlist->execute();
                         $load_playlist_result = $load_playlist->get_result();
-                        if($load_playlist_result -> num_rows >0){
-                            while($load_playlist_data = $load_playlist_result->fetch_assoc()){
+                        if ($load_playlist_result->num_rows > 0) {
+                            while ($load_playlist_data = $load_playlist_result->fetch_assoc()) {
                                 $pimage = $load_playlist_data['p_image'];
-                                if(!empty($pimage)){
+                                if (!empty($pimage)) {
                         ?>
-                        <div class="plalist-image" id="<?php echo $load_playlist_data['pid'];?>" value="<?php echo $load_playlist_data['pname'];?>">
-                            <img class="playimg" src="<?php echo $pimage;?>">
-                        </div>
+                                    <div class="plalist-image" id="<?php echo $load_playlist_data['pid']; ?>" value="<?php echo $load_playlist_data['pname']; ?>">
+                                        <img class="playimg" src="<?php echo $pimage; ?>">
+                                    </div>
+                                <?php
+                                } else {
+                                ?>
+                                    <div class="plalist-image cd" id="<?php echo $load_playlist_data['pid']; ?>" value="<?php echo $load_playlist_data['pname']; ?>">
+                                        <img src="image/unkownplaylist.svg">
+                                        <div class="icon">
+                                            <i class="fa fa-bolt"></i>
+                                            <p><?php echo $load_playlist_data['pname']; ?></p>
+                                        </div>
+                                    </div>
                         <?php
-                        }else{
-                        ?>
-                        <div class="plalist-image cd" id="<?php echo $load_playlist_data['pid'];?>" value="<?php echo $load_playlist_data['pname'];?>">
-                            <img src="image/unkownplaylist.svg">
-                            <div class="icon">
-                                <i class="fa fa-bolt"></i>
-                                <p><?php echo $load_playlist_data['pname'];?></p>
-                            </div>
-                        </div>
-                        <?php
+                                }
+                            }
                         }
-                        }
-                    }
                         ?>
                     </div>
                 </div>
@@ -401,23 +401,53 @@ include("connection.php");
         }
 
         // paly all song
-        
+
         /// load playlist song...............-------
-        $(".plalist-image").click( function(){
+        $(".plalist-image").click(function() {
             var fid = $(this).attr('id');
             var pname = $(this).attr('value');
             alert(pname)
             $.ajax({
-                url:"search.php",
-                data:{playlist:1,pid:fid},
-                type:"post",
-                success:function(data){
+                url: "search.php",
+                data: {
+                    playlist: 1,
+                    pid: fid
+                },
+                type: "post",
+                success: function(data) {
                     console.log(data);
                     $(".list-songs").html(data);
                     $(".all-songs").html("Playlist name '" + pname + "'");
                 }
             })
         })
+
+        // serach animation
+
+        let i = 0;
+        let placeholder = "";
+        const txt = document.getElementById("search-input").placeholder;
+        const speed = 120;
+
+        function type() {
+            placeholder += txt.charAt(i);
+            document.getElementById("search-input").setAttribute("placeholder", placeholder);
+            i++;
+            setTimeout(type, speed);
+        }
+
+        //search animation
+        var search = document.querySelector("#search");
+
+        function seach() {
+            i = 0;
+            placeholder = "";
+            search.classList.add("search-active");
+            document.querySelector(".search-span").classList.add("search-span-dactive");
+            document.querySelector(".search-input-i").classList.add("search-input-i-active");
+            document.querySelector(".search-input").classList.add("search-input-active");
+            type();
+        }
     </script>
 </body>
 

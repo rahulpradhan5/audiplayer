@@ -73,33 +73,14 @@ $allsong_result = $allsong->get_result();
     $last_sno_result = $last_sno->get_result();
     $last_sno_data = $last_sno_result->fetch_assoc();
     ?>
-    <input type="hidden"  id="last" value="<?php echo $last_sno_data['sno'];?>">
+    <input type="hidden"  id="last" value="<?php echo $last_sno_data['sno']; ?>">
     <!-- --------------- sidebar add------------------------ -->
     <?php
     include("sidebar.php");
     ?>
     <!-- -------------add javascript------------------ -->
     <script>
-        let data = [
-
-            <?php
-
-            while ($df = $allsong_result->fetch_array()){
-
-            ?>
-
-                {
-
-                    name: "<?php echo $df['song_title']; ?>",
-                    path: "<?php echo $df['song']; ?>",
-                    img: "<?php echo $df['thumbnail']; ?>",
-                    singer: "<?php echo $df['artist_name']; ?>"
-
-                },
-            <?php
-            }
-            ?>
-        ];
+       
         // last time play song data
         <?php
         $id = '1';

@@ -52,7 +52,8 @@ function loadData(sno){
         success:function(data){
             console.log(data);
             if(data == "failed"){
-            sno = sno+1;
+                console.log("f"+data);
+            sno += 1;
             loadData(sno);
         }else{
              $(".dt").html(data)
@@ -140,7 +141,9 @@ function pausesong(){
 }
 
 //next song
+var pres;
 function next_song(){
+    pres = 0;
     playin_song = false;
         sno += 1;
         loadData(sno);
@@ -151,6 +154,7 @@ function next_song(){
 
 //previous song
 function previous_song(){
+     pres = 1;
     playin_song = false;
         sno -= 1;
         psong = true;
@@ -213,7 +217,7 @@ function range_slider(){
     if(track.ended){
         play.innerHTML = '<i class="fa fa-play"></i>';
         if(autoplay == 1){
-            
+            pres = 0;
             if(sno == lastNO){
                 sno = 1
                 psong = true;
@@ -261,26 +265,3 @@ function play_all(){
     
 }
 
-let i = 0;
-let placeholder = "";
-const txt = document.getElementById("search-input").placeholder;
-const speed = 120;
-
-function type(){
-    placeholder += txt.charAt(i);
-    document.getElementById("search-input").setAttribute("placeholder",placeholder);
-        i++;
-    setTimeout(type,speed);
-}
-
-//search animation
-var search = document.querySelector("#search");
-        function seach(){
-            i = 0;
-            placeholder = "";
-            search.classList.add("search-active");
-            document.querySelector(".search-span").classList.add("search-span-dactive");
-            document.querySelector(".search-input-i").classList.add("search-input-i-active");
-            document.querySelector(".search-input").classList.add("search-input-active");
-            type();
-        }
