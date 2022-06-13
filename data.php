@@ -10,11 +10,11 @@ if (isset($_POST['data'])) {
     if($_POST['index'] == 1){
          $mid = 1;
     }elseif($_POST['index'] == $lastno){
-         $mid = $lastno;
+          $mid = $lastno;
     }elseif($_POST['index'] == 0){
-         $mid = $lastno;
+           $mid = $lastno;
     }elseif($_POST['index'] == $lastno+1){
-         $mid = 1;
+          $mid = 1;
     }
     else{
          $mid = $_POST['index'];
@@ -46,6 +46,7 @@ if (isset($_POST['data'])) {
             
 <?php
     }else{
+         
          ?>
          <script>
               if(pres == 1){

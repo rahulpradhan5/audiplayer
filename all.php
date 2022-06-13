@@ -5,15 +5,18 @@ if(isset($_POST['sub'])){
       $artist = $_POST['artist'];
       $song = $_POST['song'];
       $thumbnail = $_POST['thumb'];
-      $select_sno = $sql->prepare("SELECT * FROM `music`");
+      $select_sno = $sql->prepare("SELECT * FROM `music` ORDER BY `sno` DESC");
       $select_sno->execute();
       $select_sno_result = $select_sno->get_result();
-      $sno = $select_sno_result->num_rows + 1;
+      $sn = $select_sno_result->fetch_assoc();
+      $sno = $sn['sno'] + 1;
      $save = $sql->prepare("INSERT INTO `music`(`sno`,`song_title`, `artist_name`, `thumbnail`, `song`) VALUES (?,?,?,?,?)");
      $save->bind_param('sssss',$sno,$name,$artist,$thumbnail,$song);
      $save->execute();
      if($save->affected_rows>0){
          echo "success";
+     }else{
+        echo "faield";
      }
 }
 

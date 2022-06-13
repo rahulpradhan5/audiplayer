@@ -68,7 +68,7 @@ $allsong_result = $allsong->get_result();
         
     </div>
     <?php
-    $last_sno = $sql->prepare("SELECT * FROM `music` ORDER BY `mid` DESC");
+    $last_sno = $sql->prepare("SELECT * FROM `music` ORDER BY `sno` DESC");
     $last_sno->execute();
     $last_sno_result = $last_sno->get_result();
     $last_sno_data = $last_sno_result->fetch_assoc();
