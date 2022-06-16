@@ -12,7 +12,7 @@ $username = "musy_rahulpradhan";
 $password = "rahulpradhan";
     $sql = new mysqli($host, $username, $password, $database);
 }
-// else{
-//     echo("<script>alert('conected')</script>");
-// }
+else{
+    echo("<script>alert('conected')</script>");
+}
 ?>
