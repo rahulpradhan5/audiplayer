@@ -134,7 +134,7 @@
 
   function seach() {
      var i = 0;
-     const search = document.querySelector("#search");
+     var search = document.querySelector("#search");
       placeholder = "";
       search.classList.add("search-active");
       document.querySelector(".search-span").classList.add("search-span-dactive");
