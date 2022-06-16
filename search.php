@@ -10,11 +10,14 @@ if (isset($_POST['search'])) {
     $search_song_result = $search_song->get_result();
 }
 
-if (isset($_POST['playlist'])) {
+if (isset($_POST['playlist'])) { 
     $pid = $_POST['pid'];
+    $pid1 = '% ' . $pid . ',%';
+    $pid2 = '%, ' . $pid . '%';
     if (!empty($_POST['pid'])) {
-        $search_song = $sql->prepare("SELECT * FROM `music` WHERE `pid` = ?");
-        $search_song->bind_param('s', $pid);
+        $search_song = $sql->prepare("SELECT * FROM `music` WHERE  `pid` = $pid || `pid` LIKE '$pid1' || `pid` LIKE '$pid2'");
+        $search_song->execute();
+        $search_song_result = $search_song->get_result();
     } else {
         $search_song = $sql->prepare("SELECT * FROM `music`");
     }

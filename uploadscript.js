@@ -6,6 +6,8 @@
   const thumbbtn = document.getElementById("thumb_btm");
   const thumbtxt = document.getElementById("thumb_text");
 
+   
+    //------------------------
   custombtn.addEventListener("click", function() {
       realfilebtn.click();
 
@@ -63,132 +65,10 @@
   document.querySelector(".edit-popup .close-btn").addEventListener("click", function() {
       document.querySelector(".edit-popup").classList.remove("active");
   });
+  
   //send data to all .php
 
-  $(document).ready(function() {
-      // song file save js
-      $(document).on('change', '#song', function() {
-
-          var property = document.getElementById("song").files[0];
-          var song_name = property.name;
-          var song_extension = song_name.split(".").pop().toLowerCase();
-          if (song_extension !== 'mp3') {
-              alert("Invalid Audio Formate");
-              $("#submit").prop('disabled', true);
-          } else {
-              var from_data = new FormData();
-              from_data.append("song", property);
-              $.ajax({
-                  url: "file_upload.php",
-                  method: "POST",
-                  data: from_data,
-                  contentType: false,
-                  cache: false,
-                  processData: false,
-                  beforeSend: function() {
-                      $("#custum-text").html("uplaoding...");
-                      $("#submit").prop('disabled', true);
-
-                  },
-                  success: function(data) {
-                      console.log(data);
-                      if (data == "failed") {
-                          alert("Failed Try Again")
-                      } else {
-                          $("#custum-text").html(data);
-                          $("#submit").prop('disabled', false);
-                      }
-                  }
-              });
-          }
-      });
-
-      // thumbanil file save js
-
-      $(document).on('change', '#thumbnail', function() {
-          var tproperty = document.getElementById("thumbnail").files[0];
-          var image_name = tproperty.name;
-          var image_extension = image_name.split(".").pop().toLowerCase();
-          console.log(image_extension);
-          if (image_extension !== 'gif' && image_extension !== 'png' && image_extension !== 'jpg' && image_extension !== 'svg' && image_extension !== 'jpeg') {
-              alert("Invalid File Formate");
-              $("#submit").prop('disabled', true);
-          } else {
-              var from_data = new FormData();
-              from_data.append("thumbnail", tproperty);
-              $.ajax({
-
-                  url: "thumbanilupload.php",
-                  method: "POST",
-                  data: from_data,
-                  contentType: false,
-                  cache: false,
-                  processData: false,
-                  beforeSend: function() {
-                      $("#thumb_text").html("uplaoding...");
-                      $("#submit").prop('disabled', true);
-
-                  },
-                  success: function(data) {
-                      console.log(data);
-                      if (data == "failed") {
-                          alert("Failed Try Again")
-                      } else {
-                          $("#thumb_text").html(data);
-                          $("#submit").prop('disabled', false);
-                      }
-                  }
-              });
-          }
-      });
-
-
-      // send data into db
-      $("#submit").click(function(e) {
-          e.preventDefault();
-          var title = $(".song_name").val();
-          var artist = $(".artist").val();
-          var song = $(".song").html();
-          var songIn = $("#song").val();
-          var song_extension = songIn.split(".").pop().toLowerCase();
-          var thumbanail = $(".thumb").html();
-          var image_extension = thumbanail.split(".").pop().toLowerCase();
-          var thumbIn = $("#thumbnail").val();
-          if (title == "" || artist == "" || songIn == "" || thumbIn == "") {
-              alert("All Fields are require");
-          } else if (image_extension !== 'gif' && image_extension !== 'png' && image_extension !== 'jpg' && image_extension !== 'svg' && image_extension !== 'jpeg') {
-              alert("Invalid Image Formate");
-              $("#submit").prop('disabled', true);
-          } else if (song_extension !== 'mp3') {
-              alert("Invalid Audio Formate");
-              $("#submit").prop('disabled', true);
-          } else {
-              $("#submit").prop('disabled', false);
-              $.ajax({
-                  url: "all.php",
-                  type: "post",
-                  data: {
-                      sub: 1,
-                      name: title,
-                      artist: artist,
-                      song: song,
-                      thumb: thumbanail
-                  },
-                  success: function(data) {
-                      console.log(data);
-                      if (data = "success") {
-                          $(".close-btn").click();
-                          $(".list-songs").load("search.php");
-                          alert("success");
-                      } else if(data == 'faield'){
-                          alert("failed");
-                      }
-                  },
-              });
-          }
-      });
-  });
-
+ 
   // play all song 
   function searchData() {
       var inputs = $("#search-input").val();
@@ -232,32 +112,17 @@
   // paly all song
 
   /// load playlist song...............-------
-  $(".plalist-image").click(function() {
-      var fid = $(this).attr('id');
-      var pname = $(this).attr('value');
-      $.ajax({
-          url: "search.php",
-          data: {
-              playlist: 1,
-              pid: fid
-          },
-          type: "post",
-          success: function(data) {
-              console.log(data);
-              $(".list-songs").html(data);
-              $(".all-songs").html("Playlist name '" + pname + "'");
-          }
-      })
-  })
+  
 
   // serach animation
 
-  let i = 0;
-  let placeholder = "";
+  var i = 0;
+  var placeholder = "";
   const txt = document.getElementById("search-input").placeholder;
   const speed = 120;
 
   function type() {
+    
       placeholder += txt.charAt(i);
       document.getElementById("search-input").setAttribute("placeholder", placeholder);
       i++;
@@ -265,10 +130,11 @@
   }
 
   //search animation
-  var search = document.querySelector("#search");
+  
 
   function seach() {
-      i = 0;
+     var i = 0;
+     const search = document.querySelector("#search");
       placeholder = "";
       search.classList.add("search-active");
       document.querySelector(".search-span").classList.add("search-span-dactive");
@@ -276,3 +142,4 @@
       document.querySelector(".search-input").classList.add("search-input-active");
       type();
   }
+

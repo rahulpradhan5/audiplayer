@@ -3,6 +3,7 @@ include("connection.php");
 if(isset($_POST['sub'])){
       $name = $_POST['name'];
       $artist = $_POST['artist'];
+      $playlist = implode(', ', $_POST['playlist']);
       $song = $_POST['song'];
       $thumbnail = $_POST['thumb'];
       $select_sno = $sql->prepare("SELECT * FROM `music` ORDER BY `sno` DESC");
@@ -10,8 +11,8 @@ if(isset($_POST['sub'])){
       $select_sno_result = $select_sno->get_result();
       $sn = $select_sno_result->fetch_assoc();
       $sno = $sn['sno'] + 1;
-     $save = $sql->prepare("INSERT INTO `music`(`sno`,`song_title`, `artist_name`, `thumbnail`, `song`) VALUES (?,?,?,?,?)");
-     $save->bind_param('sssss',$sno,$name,$artist,$thumbnail,$song);
+     $save = $sql->prepare("INSERT INTO `music`(`sno`,`song_title`, `artist_name`, `thumbnail`, `song`,`pid`) VALUES (?,?,?,?,?,?)");
+     $save->bind_param('ssssss',$sno,$name,$artist,$thumbnail,$song,$playlist);
      $save->execute();
      if($save->affected_rows>0){
          echo "success";
@@ -45,6 +46,19 @@ if(isset($_POST['delete'])){
     }else{
         echo "failed";
 
+    }
+}
+
+if(isset($_POST['palylist'])){
+    $pname = $_POST['name'];
+    $pthumb = $_POST['thumb'];
+    $insert_playlist = $sql->prepare("INSERT INTO `playlist`( `pname`, `p_image`) VALUES (?,?)");
+    $insert_playlist->bind_param('ss',$pname,$pthumb);
+    $insert_playlist->execute();
+    if($insert_playlist->affected_rows>0){
+          echo "success";
+    }else{
+        echo "failed";
     }
 }
 ?>
