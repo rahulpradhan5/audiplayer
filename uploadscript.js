@@ -6,14 +6,14 @@
   const thumbbtn = document.getElementById("thumb_btm");
   const thumbtxt = document.getElementById("thumb_text");
 
-   
-    //------------------------
-  custombtn.addEventListener("click", function() {
+
+  //------------------------
+  custombtn.addEventListener("click", function () {
       realfilebtn.click();
 
   });
 
-  realfilebtn.addEventListener("change", function() {
+  realfilebtn.addEventListener("change", function () {
       if (realfilebtn.value) {
           customtxt.innerHTML = realfilebtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
       } else {
@@ -21,12 +21,12 @@
       }
   });
 
-  thumbbtn.addEventListener("click", function() {
+  thumbbtn.addEventListener("click", function () {
       thumbfilebtn.click();
 
   });
 
-  thumbfilebtn.addEventListener("change", function() {
+  thumbfilebtn.addEventListener("change", function () {
       if (thumbfilebtn.value) {
           thumbtxt.innerHTML = thumbfilebtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
       } else {
@@ -36,20 +36,20 @@
 
   //  add song popup
 
-  document.querySelector("#show-login").addEventListener("click", function() {
+  document.querySelector("#show-login").addEventListener("click", function () {
       document.querySelector(".popup").classList.add("active");
 
   });
-  document.querySelector(".popup .close-btn").addEventListener("click", function() {
+  document.querySelector(".popup .close-btn").addEventListener("click", function () {
       document.querySelector(".popup").classList.remove("active");
 
   });
   /// song list 
-  document.querySelector("#all-songs-list").addEventListener("click", function() {
+  document.querySelector("#all-songs-list").addEventListener("click", function () {
       document.querySelector(".song_list").classList.add("active");
 
   });
-  document.querySelector(".song_list .close-btn").addEventListener("click", function() {
+  document.querySelector(".song_list .close-btn").addEventListener("click", function () {
       document.querySelector(".song_list").classList.remove("active");
       document.querySelector("#search").classList.remove("search-active");
       document.querySelector(".search-span").classList.remove("search-span-dactive");
@@ -57,18 +57,10 @@
       document.querySelector(".search-input").classList.remove("search-input-active");
   });
 
-  document.querySelector("#edit-song").addEventListener("click", function() {
-      document.querySelector(".edit-popup").classList.add("active");
-      $(".edit-form").load("song_edit.php");
 
-  });
-  document.querySelector(".edit-popup .close-btn").addEventListener("click", function() {
-      document.querySelector(".edit-popup").classList.remove("active");
-  });
-  
   //send data to all .php
 
- 
+
   // play all song 
   function searchData() {
       var inputs = $("#search-input").val();
@@ -79,7 +71,7 @@
               search: 1,
               inputs: inputs
           },
-          success: function(data) {
+          success: function (data) {
               console.log(data);
               $(".list-songs").html(data);
               $(".all-songs").html("Search result for '" + inputs + "'");
@@ -97,7 +89,7 @@
               sid: data_id
           },
           type: "post",
-          success: function(data) {
+          success: function (data) {
               console.log(data);
               if (data == "failed") {
                   alert("Failed");
@@ -112,7 +104,7 @@
   // paly all song
 
   /// load playlist song...............-------
-  
+
 
   // serach animation
 
@@ -122,7 +114,7 @@
   const speed = 120;
 
   function type() {
-    
+
       placeholder += txt.charAt(i);
       document.getElementById("search-input").setAttribute("placeholder", placeholder);
       i++;
@@ -130,11 +122,11 @@
   }
 
   //search animation
-  
+
 
   function seach() {
-     var i = 0;
-     var search = document.querySelector("#search");
+      var i = 0;
+      var search = document.querySelector("#search");
       placeholder = "";
       search.classList.add("search-active");
       document.querySelector(".search-span").classList.add("search-span-dactive");
@@ -143,3 +135,27 @@
       type();
   }
 
+  // edit song
+
+  function songEdit(data_id) {
+      $.ajax({
+          url: 'song_edit.php',
+          data: {
+              editSong: 1,
+              sid: data_id
+          },
+          method: "post",
+          success: function (data) {
+              console.log(data);
+          }
+      })
+
+  }
+
+
+  // play one song 
+  function playOne(soid){
+    document.querySelector("#"+soid).classList.remove("fa-play");
+    document.querySelector("#"+soid).classList.add("fa-pause");
+  }
+  
